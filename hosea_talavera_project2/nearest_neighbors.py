@@ -136,3 +136,25 @@ def choose_K(X_train,Y_train,X_val,Y_val):
 	#Returns the best K_value
 	return best_K_value
 
+def main():
+
+	#test KNN_test and choose_K
+	test_set_x = np.array([[1, 1], [2, 1], [0, 10], [10, 10], [5, 5], [3, 10], [9, 4], [6, 2], [2, 2], [8, 7]])
+	test_set_y = np.array([[1], [-1], [1], [-1], [1], [-1], [1], [-1], [1], [-1]])
+
+	training_set_x = np.array([[1, 5], [2, 6], [2, 7], [3, 7], [3, 8], [4, 8], [5, 1], [5, 9], [6, 2], [7, 2], [7, 3], [8, 3], [8, 4], [9, 5]])
+	training_set_y = np.array([[-1], [-1], [1], [-1], [1], [-1], [1], [-1], [1], [-1], [1], [-1], [1], [1]])
+
+	acc1 = KNN_test(training_set_x, training_set_y, test_set_x, test_set_y, 1)
+	acc3 = KNN_test(training_set_x, training_set_y, test_set_x, test_set_y, 3)
+	acc5 = KNN_test(training_set_x, training_set_y, test_set_x, test_set_y, 5)
+
+	k = choose_K(training_set_x, training_set_y, test_set_x, test_set_y)
+
+	print("Classification Using K = 1:", acc1)
+	print("Classification Using K = 2:", acc3)
+	print("Classification Using K = 5:", acc5)
+	print("Best K Value: ", k)
+
+if __name__ == "__main__":
+    main()
