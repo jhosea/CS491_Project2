@@ -74,7 +74,7 @@ Returns:
 def K_Means(X,K):
 
 	#Initalize cluster_centers array
-	cluster_centers = np.array([])
+	cluster_centers = random.choice(X)
 
 	#Initalizes K cluster centers
 	for count in range(K):
@@ -96,7 +96,7 @@ def K_Means(X,K):
 
 
 	#While new cluster centers are different than the old cluster centers, continue updating the cluster centers
-	while((old_cluster_centers != new_cluster_centers).all()):
+	while(not np.array_equal(old_cluster_centers,new_cluster_centers)):
 
 		old_cluster_centers = new_cluster_centers
 		new_cluster_centers = update_cluster_centers(X, old_cluster_centers)
@@ -142,6 +142,8 @@ def K_Means_better(X,K):
 	return np.sort(best_cluster_center)
 
 
+test2 = np.array([[1, 0], [7, 4], [9, 6], [2, 1], [4, 8], [0, 3], [13, 5], [6, 8], [7, 3], [3, 6], [2, 1], [8, 3], [10, 2], [3, 5], [5, 1], [1, 9], [10, 3], [4, 1], [6, 6], [2, 2]]
+)
 
-
-
+result = K_Means(test2,3)
+print(result)
