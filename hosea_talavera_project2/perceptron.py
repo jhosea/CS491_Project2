@@ -107,15 +107,15 @@ def perceptron_test(X_test, Y_test, w, b):
 	#Return the count correct divided by the number of samples
 	return(count_correct/len(X_test))
 
-# def main():
-#
-# 	X_train = np.array([[-2, 1], [1, 1], [1.5, -0.5], [-2, -1], [-1, -1.5], [2, -2]])
-# 	Y_train = np.array([[1], [1], [1], [-1], [-1], [-1]])
-#
-# 	result = perceptron_train(X_train, Y_train)
-# 
-# 	print(result)
-#
-# if __name__ == "__main__":
-#
-# 	main()
+def main():
+
+	X_train = np.array([[-2, 1], [1, 1], [1.5, -0.5], [-2, -1], [-1, -1.5], [2, -2]])
+	Y_train = np.array([[1], [1], [1], [-1], [-1], [-1]])
+
+	result = perceptron_train(X_train, Y_train)
+
+	print(result)
+
+if __name__ == "__main__":
+
+	main()
