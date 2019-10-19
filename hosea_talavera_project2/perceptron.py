@@ -108,13 +108,21 @@ def perceptron_test(X_test, Y_test, w, b):
 	return(count_correct/len(X_test))
 
 def main():
+	X = np.array([[0, 1], [1, 0], [5, 4], [1, 1], [3, 3], [2, 4], [1, 6]])
+	Y = np.array([[1], [1], [-1], [1], [-1], [-1], [-1]])
+	W = perceptron_train(X, Y)
+	test_acc = perceptron_test(X, Y, W[0], W[1])
+	print(W)
+	print(test_acc)
 
 	X_train = np.array([[-2, 1], [1, 1], [1.5, -0.5], [-2, -1], [-1, -1.5], [2, -2]])
 	Y_train = np.array([[1], [1], [1], [-1], [-1], [-1]])
 
 	result = perceptron_train(X_train, Y_train)
+	test_acc2 = perceptron_test(X, Y, W[0], W[1])
 
 	print(result)
+	print(test_acc2)
 
 if __name__ == "__main__":
 
