@@ -17,7 +17,6 @@ def updateWB(weights,bias,X,Y):
 
 	new_bias = bias + Y
 
-	#print("Updated: ", new_weights, new_bias)
 
 	return [new_weights, new_bias]
 
@@ -53,15 +52,10 @@ def perceptron_train(X,Y):
 		#Iterate through all of the samples
 		for sample_index in range(len(X)):
 
-			#print("Weights: ", weights)
-			#print("Sample: ", X[sample_index,:])
-			#print("Bias: ", bias)
 
 			#Find the activation for each sample
 			activation = np.sum(weights * X[sample_index,:]) + bias
 
-			#print("Activation: ", activation)
-			#print("Label", Y[sample_index,0])
 			
 			#If the activation is incorrect, update
 			if((activation * Y[sample_index,0]) <= 0):
@@ -108,18 +102,3 @@ def perceptron_test(X_test, Y_test, w, b):
 	#Return the count correct divided by the number of samples
 	return(count_correct/len(X_test))
 
-
-
-X = np.array([[0, 1], [1, 0], [5, 4], [1, 1], [3, 3], [2, 4], [1, 6]])
-Y = np.array([[1], [1], [-1], [1], [-1], [-1], [-1]])
-
-X_test = np.array([[0, 1], [1, 0], [5, 4], [1, 1], [3, 3], [0, 1], [1, 6]])
-Y_test = np.array([[1], [1], [-1], [1], [-1], [-1], [-1]])
-
-result = perceptron_train(X,Y)
-
-print(result)
-
-accuracy = perceptron_test(X_test,Y_test,result[0],result[1])
-
-print(accuracy)

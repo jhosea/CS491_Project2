@@ -14,11 +14,16 @@ def find_distance(X, cluster_center):
 
 
 '''
-
+Updates the cluster centers
+Parameters:
+	X -> np.array of training data
+	cluster_centers -> np.array of the current cluster centers
+Returns:
+	new_cluster_centers -> np.array of the udpated cluster centers
 '''
 def update_cluster_centers(X, cluster_centers):
 
-	#print("Old Cluster Center: ", cluster_centers)
+	#Creates an empty array for the closest cluster centers, element at index 0 of closest_center_index corresponds index of the closest cluster_center for the 0th sample of X
 	closest_center_index = np.array([])
 
 
@@ -37,29 +42,30 @@ def update_cluster_centers(X, cluster_centers):
 			new_cluster_distance = find_distance(sample,cluster_centers[index])
 
 
+
 			if new_cluster_distance < best_cluster_distance:
 
 				#If the distance from the sample to the cluster center is less than the distance to the previous cluster center 
 				best_cluster_distance = new_cluster_distance
 				best_cluster_index = index
 
+
 		#append the cluster center with  the shortest distance
 		closest_center_index = np.append(closest_center_index,best_cluster_index)
 
 
-
 	#Initialize the new cluster centers array
-	new_cluster_centers = np.array([])
+	new_cluster_centers = np.zeros(cluster_centers.shape)
 
 	#Iterate through all cluster centers
 	for index in range(len(cluster_centers)):
 
 		#Recalculate the cluster center
-		new_cluster_centers = np.append(new_cluster_centers, np.mean(X[closest_center_index == index], axis = 0))
+		new_cluster_centers[index] = np.mean(X[closest_center_index == index], axis = 0)
 
 
 	#returns new cluster centers
-	return new_cluster_centers
+	return (new_cluster_centers)
 
 
 
@@ -73,26 +79,42 @@ Returns:
 '''
 def K_Means(X,K):
 
-	#Initalize cluster_centers array
-	cluster_centers = random.choice(X)
+	#Initalize cluster_centers array to array of 0's
+	cluster_centers = np.zeros((K, np.size(X, 1)))
+
 
 	#Initalizes K cluster centers
 	for count in range(K):
 
-		#Randomly picks a point in X to be a cluster center
-		new_cluster = random.choice(X)
+		#Boolean to track whether the cluster center has already been added
+		cluster_exists = True
+
 
 		#Randomly picks a new point in X to be a cluster center, until it finds a point that has not been used already
-		while new_cluster in cluster_centers:
+		while cluster_exists:
 
+			#Sets the cluster_exists boolean to False
+			cluster_exists = False
+
+
+			#Randomly picks a point in X to be a cluster center
 			new_cluster = random.choice(X)
 
-		#Appends the unused cluster center to the cluster_centers array
-		cluster_centers = np.append(cluster_centers,[new_cluster])
+			#Loop through the cluster_centers array
+			for index in range(len(cluster_centers)):
+
+				#If the random cluster centers are already in the cluster_centers array, set cluster_exists to True
+				if np.array_equal(cluster_centers[index,:],new_cluster):
+					cluster_exists = True
+
+
+		#Adds the unused cluster center to the cluster_centers array
+		cluster_centers[count] = new_cluster
 
 
 	old_cluster_centers = cluster_centers
 	new_cluster_centers = update_cluster_centers(X, old_cluster_centers)
+
 
 
 	#While new cluster centers are different than the old cluster centers, continue updating the cluster centers
@@ -101,8 +123,9 @@ def K_Means(X,K):
 		old_cluster_centers = new_cluster_centers
 		new_cluster_centers = update_cluster_centers(X, old_cluster_centers)
 
-	#returns the new cluster centers, sorted
-	return np.sort(new_cluster_centers)
+
+	#returns the new cluster centers
+	return (new_cluster_centers)
 
 
 '''
@@ -116,12 +139,13 @@ Returns:
 def K_Means_better(X,K):
 
 	#Creates an np.array of zero's with 1000 rows and K columns
-	all_cluster_centers = np.zeros((1000, K))
+	all_cluster_centers = []
 
 	#Creates 1000 cluster centers and puts them in all_cluster_centers
-	for row_index in range(len(all_cluster_centers)):
+	for row_index in range(1000):
 
-		all_cluster_centers[row_index,:] = K_Means(X,K)
+		all_cluster_centers.append(K_Means(X,K))
+
 
 
 	#Finds all unique values in all_cluster_centers and their counts
@@ -139,11 +163,4 @@ def K_Means_better(X,K):
 
 
 	#returns the cluster center that occures the most in all_cluster_centers
-	return np.sort(best_cluster_center)
-
-
-test2 = np.array([[1, 0], [7, 4], [9, 6], [2, 1], [4, 8], [0, 3], [13, 5], [6, 8], [7, 3], [3, 6], [2, 1], [8, 3], [10, 2], [3, 5], [5, 1], [1, 9], [10, 3], [4, 1], [6, 6], [2, 2]]
-)
-
-result = K_Means(test2,3)
-print(result)
+	return (best_cluster_center)
